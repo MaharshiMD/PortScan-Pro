@@ -1,0 +1,19 @@
+{
+    "target": "localhost",
+    "target_ip": "127.0.0.1",
+    "scan_time": 3.098952,
+    "open_ports": [
+        {
+            "port": 135,
+            "service": "epmap",
+            "banner": "No banner available"
+        },
+        {
+            "port": 445,
+            "service": "SMB",
+            "banner": "No banner available"
+        }
+    ],
+    "closed_ports_count": 498,
+    "total_scanned": 500
+}

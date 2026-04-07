@@ -1,0 +1,8 @@
+# This project uses built-in Python libraries and requires no external packages to run.
+# Standard libraries used:
+# - socket
+# - threading
+# - queue
+# - datetime
+# - json
+# - tkinter (usually bundled with Python, but requires python3-tk on some Linux distros)
