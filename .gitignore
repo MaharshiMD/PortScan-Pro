@@ -1,0 +1,26 @@
+# Node.js build and dependencies
+node_modules/
+dist/
+.vercel/
+
+# Python caching and environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+env/
+
+# Editor configurations
+.vscode/
+.idea/
+
+# Local port scan reports
+scan_results.json
+scan_results.csv
+scan_results.html
+scan_report.json
+scan_report.csv
+scan_report.html

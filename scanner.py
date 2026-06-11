@@ -68,13 +68,39 @@ class PortScanner:
         except Exception:
             return False
 
-    def grab_banner(self, s):
-        """Attempts to grab a service banner from an open connection."""
+    def grab_banner(self, s, port=None):
+        """Attempts to grab a service banner from an open connection, using HTTP probes if needed."""
         try:
-            s.settimeout(1)
-            banner = s.recv(1024).decode(errors='ignore').strip()
-            banner = banner.replace('\r', '').replace('\n', ' ')
-            return banner if banner else "No banner available"
+            # Try to receive passive banner (e.g. SSH, FTP send banners immediately on connection)
+            s.settimeout(0.2)
+            try:
+                banner = s.recv(1024).decode(errors='ignore').strip()
+                if banner:
+                    return banner.replace('\r', '').replace('\n', ' ')
+            except socket.timeout:
+                pass
+            
+            # If no passive banner and it's a typical web port, send a clean HTTP probe
+            if port in [80, 443, 8080]:
+                probe = "HEAD / HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n"
+                s.sendall(probe.encode())
+                s.settimeout(0.5)
+                response = s.recv(1024).decode(errors='ignore').strip()
+                if response:
+                    lines = response.split('\n')
+                    server_header = [l.strip() for l in lines if l.lower().startswith('server:')]
+                    if server_header:
+                        return server_header[0]
+                    return lines[0].strip()
+            else:
+                # Nudge other services with a newline probe
+                s.sendall(b"\r\n")
+                s.settimeout(0.3)
+                banner = s.recv(1024).decode(errors='ignore').strip()
+                if banner:
+                    return banner.replace('\r', '').replace('\n', ' ')
+            
+            return "No banner available"
         except Exception:
             return "No banner available"
 
@@ -95,7 +121,7 @@ class PortScanner:
             
             if result == 0:
                 service = COMMON_PORTS.get(port, self._try_get_service(port))
-                banner = self.grab_banner(s)
+                banner = self.grab_banner(s, port)
                 
                 with self.lock:
                     self.open_ports.append({

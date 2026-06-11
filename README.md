@@ -54,14 +54,51 @@ This launches a standalone window where you can:
 - Slide through the background-managed **Live Progress Bar**.
 - Expand the Export Combobox to instantly generate `.html` or `.csv` spreadsheets directly to the local folder.
 
+## 3. Web Dashboard & API (Vercel Ready)
+A sleek, modern, dark-themed web interface and API dashboard. It offers:
+- **Interactive Control Room**: Easily set targets, adjust thread rates, socket timeouts, and toggle custom ranges vs common ports.
+- **Virtual Terminal Console**: Watch logs print in real-time as connections are evaluated.
+- **Export Center**: Click to generate and download `.json`, `.csv`, or a styled `.html` scan report.
+- **Python Serverless API**: A fast connection-handler built with Flask, designed to run in serverless sandboxes.
+
+### Running Web Server Locally
+1. Start the Flask backend server on port 5000:
+   ```bash
+   python api/index.py
+   ```
+2. In a separate terminal, install Node.js dependencies and boot the Vite server:
+   ```bash
+   npm install
+   npm run dev
+   ```
+3. Open `http://localhost:5173` in your browser.
+
+### Deploying to Vercel
+Deploy the full-stack app directly to Vercel with zero configuration:
+```bash
+vercel
+```
+Vercel automatically detects the Vite config to serve the React UI and mounts `/api/` endpoints as Python serverless functions.
+
 ## Project Structure
 ```text
 PortScan Pro/
-├── scanner.py        # Core multithreaded scanning logic and CLI interface
-├── gui.py            # Tkinter desktop application interface
-├── requirements.txt  # Description of required built-in modules
-└── README.md         # Readme instructions
+├── api/
+│   ├── index.py          # Flask backend (Vercel Serverless Function)
+│   └── requirements.txt  # Web API dependencies
+├── src/
+│   ├── App.jsx           # React UI Dashboard
+│   ├── index.css         # Cyberpunk Dark CSS styles
+│   └── main.jsx          # React app mounting entry
+├── index.html            # Main HTML document with SEO meta
+├── package.json          # Node dependencies & Vite build script
+├── vercel.json           # Rewrite mapping routing API traffic
+├── scanner.py            # Core multithreaded scanning logic and CLI interface
+├── gui.py                # Tkinter desktop application interface
+├── requirements.txt      # Zero-dependency local scanner notes
+└── README.md             # Readme instructions
 ```
 
 > **Legal Disclaimer:**
+> **For Educational Purposes Only.** This tool is intended strictly for network administration, academic research, and personal systems auditing. You should only run diagnostics or port scans against physical networks and remote hardware you own or possess explicitly written permission to test. Unauthorized port scanning can result in severe ISP restrictions, IP blacklisting, or potential legal consequences depending on jurisdiction.
 > **For Educational Purposes Only.** This tool is intended strictly for network administration, academic research, and personal systems auditing. You should only run diagnostics or port scans against physical networks and remote hardware you own or possess explicitly written permission to test. Unauthorized port scanning can result in severe ISP restrictions, IP blacklisting, or potential legal consequences depending on jurisdiction.
