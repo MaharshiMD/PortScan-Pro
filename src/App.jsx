@@ -154,7 +154,7 @@ export default function App() {
     addLog(`[*] Directing API connection to serverless backend...`, 'info');
 
     try {
-      const response = await fetch('/api/scan', {
+      const response = await fetch('https://portscan-pro.onrender.com/api/scan', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
