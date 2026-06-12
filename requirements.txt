@@ -6,3 +6,6 @@
 # - datetime
 # - json
 # - tkinter (usually bundled with Python, but requires python3-tk on some Linux distros)
+flask
+flask-cors
+gunicorn
